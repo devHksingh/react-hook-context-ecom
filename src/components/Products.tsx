@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import getAllProducts from "../utils/fetchProducts"
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi"
 
@@ -24,6 +24,7 @@ const Products = () => {
     const [cartProduct,setCartProduct] = useState([{productId:0,quantity:0}])
     const [likeProduct,setLikeProduct] = useState([{productId:0}])
     // const [quantity,setQuantity] = useState([])
+    const likeBtnRef = useRef<HTMLDivElement |null>(null)
     
     useEffect(()=>{
         async function getData(){
@@ -111,8 +112,17 @@ const Products = () => {
             setLikeProduct((prev)=>{
                 return prev.filter((product)=> product.productId !==id)
             })
+            if (likeBtnRef.current) {
+                console.log(likeBtnRef.current);
+                console.log('---------------------------------------');
+                
+                likeBtnRef.current.style.backgroundColor = "blue";
+              }
         }else{
             setLikeProduct((prev)=>[...prev,{productId:id}])
+            if(likeBtnRef.current){
+                likeBtnRef.current.style.backgroundColor="red"
+            }
         }
     },[likeProduct])
       
@@ -139,7 +149,7 @@ const Products = () => {
                         <span>{product.id}</span>
                         <div className="p-2 mb-2"><img src={product.image} className="block aspect-square hover:rotate-1"/></div>
                         <div className="flex flex-col justify-center place-items-center m-2 gap-2">
-                            <div className=" cursor-pointer"><FiHeart onClick={()=>handleLikeProduct(product.id)} className="hover:text-red-600 hover:fill-red-600"/></div>
+                            <div className=" cursor-pointer" ><FiHeart onClick={()=>handleLikeProduct(product.id)} className={`cursor-pointer ${likeProduct.find((item)=>item.productId ===product.id)?`fill-red-600 text-red-600`:`"hover:text-red-600 hover:fill-red-600"`}`} /></div>
                             <div className=" flex justify-center gap-4 items-center">
                                 <FiShoppingCart className="fill-orange-400"/>
                                 <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleQuantity(product.id,"add")}><FiPlus/></button>
