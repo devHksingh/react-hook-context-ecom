@@ -153,7 +153,7 @@ const Products = () => {
                             <div className=" flex justify-center gap-4 items-center">
                                 <FiShoppingCart className="fill-orange-400"/>
                                 <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleQuantity(product.id,"add")}><FiPlus/></button>
-                                <span>Cart </span>
+                                <span>{cartProduct.find((item)=>item.productId === product.id)?.quantity ||0} </span>
                                 <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleQuantity(product.id,"remove")}><FiMinus/></button>
                             </div>
                         </div>
