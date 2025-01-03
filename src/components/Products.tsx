@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import getAllProducts from "../utils/fetchProducts"
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi"
 
@@ -22,6 +22,7 @@ const Products = () => {
     // }
     const [products,setProducts]= useState<Products[]>([])
     const [cartProduct,setCartProduct] = useState([{productId:0,quantity:0}])
+    const [likeProduct,setLikeProduct] = useState([{productId:0}])
     // const [quantity,setQuantity] = useState([])
     
     useEffect(()=>{
@@ -102,6 +103,18 @@ const Products = () => {
             
         })
       };
+
+    const handleLikeProduct = useCallback((id:number)=>{
+        console.log(id)
+        const productAlreadyExist =  likeProduct.find((product)=>product.productId === id)
+        if(productAlreadyExist){
+            setLikeProduct((prev)=>{
+                return prev.filter((product)=> product.productId !==id)
+            })
+        }else{
+            setLikeProduct((prev)=>[...prev,{productId:id}])
+        }
+    },[likeProduct])
       
     
     
@@ -116,6 +129,7 @@ const Products = () => {
               </button> */}
         <h1 className="text-center font-bold text-xl">Products</h1>
         <p className="text-center">Total product in Cart is {cartProduct.map((item)=><p key={item.productId}>{item.productId} {item.quantity}</p>)}</p>
+        <div>Like product id : {likeProduct.map((product)=><p key={product.productId}>{product.productId>0?<>{product.productId}</>:<></>}</p>)}</div>
          
         <div className="grid grid-cols-1 md:grid-cols-3 max-w-xl mx-auto gap-2 p-4">
             
@@ -125,7 +139,7 @@ const Products = () => {
                         <span>{product.id}</span>
                         <div className="p-2 mb-2"><img src={product.image} className="block aspect-square hover:rotate-1"/></div>
                         <div className="flex flex-col justify-center place-items-center m-2 gap-2">
-                            <div className=" cursor-pointer"><FiHeart className="hover:text-red-600 hover:fill-red-600"/></div>
+                            <div className=" cursor-pointer"><FiHeart onClick={()=>handleLikeProduct(product.id)} className="hover:text-red-600 hover:fill-red-600"/></div>
                             <div className=" flex justify-center gap-4 items-center">
                                 <FiShoppingCart className="fill-orange-400"/>
                                 <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleQuantity(product.id,"add")}><FiPlus/></button>
