@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import getAllProducts from "../utils/fetchProducts"
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi"
-import { Link, useLoaderData, useNavigation,Outlet } from "react-router-dom"
+import { Link, useLoaderData, useNavigation,Outlet, NavLink } from "react-router-dom"
 
 const Products = () => {
     interface Products{
@@ -166,7 +166,7 @@ const Products = () => {
                         </div>
                     </div>
                     <h2 className="text-wrap ">{product.title}</h2>
-                    <Link to={`/${product.id}`} className="border text-lg font-medium bg-orange-400 capitalize">Buy</Link>
+                    <NavLink to={`/${product.id}`} className={({isActive})=>{ return isActive?`bg-sky-400`:` border text-lg font-medium bg-orange-400 capitalize`}}>Buy</NavLink>
                     <p className="text-center">${product.price}</p>
                 </div>
             )
