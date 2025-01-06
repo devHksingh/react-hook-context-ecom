@@ -10,12 +10,14 @@ import Github from './components/Github.tsx'
 import githubInfoLoader from './utils/testFetch.ts'
 import getAllProducts from './utils/fetchProducts.ts'
 import ErrorPage from './ErrorPage.tsx'
+import ProductPage from './components/ProductPage.tsx'
 // import githubInfoLoader from './utils/testFetch.ts'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' errorElement={<ErrorPage/>}>
       <Route path='' loader={getAllProducts} element={<Products/>}  />
+      <Route path='/:productId' element={<ProductPage/>}/>
       <Route path='/cart' element={<CartProducts/>}/>
       <Route path='/wishlist' element={<WishList/>}/>
       <Route path='/git' loader={githubInfoLoader}  element={<Github/>} />
