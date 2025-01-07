@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react"
-import getAllProducts from "../utils/fetchProducts"
+import { useCallback, useRef, useState } from "react"
+// import getAllProducts from "../utils/fetchProducts"
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi"
 import { Link, useLoaderData, useNavigation,Outlet, NavLink } from "react-router-dom"
 
@@ -22,60 +22,28 @@ const Products = () => {
     //     quantity:number
     // }
     const navigation = useNavigation()
-    const [products,setProducts]= useState<Products[]>([])
+    // const [products,setProducts]= useState<Products[]>([])
     const [cartProduct,setCartProduct] = useState([{productId:0,quantity:0}])
     const [likeProduct,setLikeProduct] = useState([{productId:0}])
     // const [quantity,setQuantity] = useState([])
     const likeBtnRef = useRef<HTMLDivElement |null>(null)
-    const productData = useLoaderData()
+    
+    const productData = useLoaderData() as Products[]
+
+    
+    
     console.log("''''''GETALL PRODUCTS''''''''",productData);
     
-    useEffect(()=>{
-        async function getData(){
-            const fetchData = await getAllProducts()
-            setProducts(fetchData)
+    // useEffect(()=>{
+    //     async function getData(){
+    //         const fetchData = await getAllProducts()
+    //         setProducts(fetchData)
 
-        }
-        getData()
+    //     }
+    //     getData()
         
-    }, [])
+    // }, [])
 
-    // const handleQuantity =(id:number,action:"add"|"remove")=>{
-    //     console.log(action)
-               
-    //     setCartProduct((prev)=>{
-    //         const existingItem = prev.find((item)=> item.productId ===id)
-    //         if(existingItem){
-    //             return prev.map(item => item.productId === id?
-    //                 {...item,quantity:item.quantity+1}:item
-    //             )
-    //         }
-    //         return [...prev,{productId:id,quantity:1}]
-    //     })
-    // }
-    // const handleQuantity = (id:number,action:"add"|"remove")=>{
-    //     console.log(id,action)
-    //     setCartProduct((prev)=>{
-    //         const existingItem = prev.find((item)=>item.productId === id)
-    //         console.log(existingItem);
-    //         if(existingItem){
-    //             if(action === "add"){
-    //                 return prev.map((item)=>item.productId ===id?{...item,quantity:item.quantity+1}:item)
-    //             }else if(action === "remove"){ //remove product if its quantity is less then 1
-    //                 // return prev.map((item)=> {
-    //                 //     return item.quantity>1? prev.map((item)=>item.productId === id?{...item,quantity:item.quantity-1}:item):prev.filter((item)=>item.productId !== id)
-    //                 // })
-    //                 return existingItem.quantity>1 ? prev.
-    //             }
-    //         }else{
-    //             if(action === "add"){
-    //                 return [...prev,{productId:id,quantity:1}]
-    //             }else{
-    //                 return prev
-    //             }
-    //         }
-    //     })
-    // }
 
     const handleQuantity = (id: number, action: "add" | "remove") => {
         console.log(id, action);
@@ -133,11 +101,20 @@ const Products = () => {
     
     
     
-    console.log('after ');
+    if (navigation.state === "loading") {
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75">
+                <div className="text-center space-y-4">
+                    <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"/>
+                    <p className="text-xl font-semibold text-blue-600">Loading products...</p>
+                </div>
+            </div>
+        );
+    }
     // console.log(quantity);
   return (
     <>
-    {navigation.state==="loading"?<div><h1 className="text-center text-red-600 font-2xl border">LOADING.....</h1></div>:
+    
     <div>
     {/* <button type="button" className="bg-indigo-500 p-4 rounded" disabled>
             
@@ -149,6 +126,12 @@ const Products = () => {
     <div>Like product id : {likeProduct.map((product)=><p key={product.productId}>{product.productId>0?<>{product.productId}</>:<></>}</p>)}</div>
     <Link className="border p-4 m-2" to={'cart'}>Cart</Link>
     <Link className="border p-4 m-2" to={'git'}>Github</Link>
+    {navigation.state !== "idle" && (
+        <div className="fixed top-0 left-0 w-full h-1 bg-blue-500">
+            <p>LOADING.......</p>
+          <div className="w-1/3 h-full bg-blue-700 animate-pulse" />
+        </div>
+      )}
     <div className="grid grid-cols-1 md:grid-cols-3 max-w-xl mx-auto gap-2 p-4">
         
         {productData&& productData.map((product:Products,index:number)=>{
@@ -173,7 +156,7 @@ const Products = () => {
         })}
     </div>
     <div className="border p-4 "><Outlet /></div>
-</div>}
+</div>
         
     </>
   )
