@@ -11,6 +11,7 @@ import getAllProducts from './utils/fetchProducts.ts'
 import ErrorPage from './ErrorPage.tsx'
 
 import DisplayProducts from './components/DisplayProducts.tsx'
+import Products from './components/Products.tsx'
 
 
 const router = createBrowserRouter(

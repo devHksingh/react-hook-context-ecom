@@ -4,13 +4,13 @@
 import { NavLink } from "react-router-dom";
 import useFetchProducts from "../hooks/useFetchProducts";
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi";
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 
 const DisplayProducts = () => {
     // const navigation = useNavigation();
     const {data,error,loading:dataLoading} = useFetchProducts() ;
     const [cartProduct,setCartProduct] = useState([{productId:0,quantity:0}])
-        const [likeProduct,setLikeProduct] = useState([{productId:0}])
+    const [likeProduct,setLikeProduct] = useState([{productId:0}])
     const handleQuantity = (id: number, action: "add" | "remove") => {
             console.log(id, action);
           
@@ -43,7 +43,7 @@ const DisplayProducts = () => {
             })
           };
     
-        const handleLikeProduct = useCallback((id:number)=>{
+    const handleLikeProduct = useCallback((id:number)=>{
             console.log(id)
             const productAlreadyExist =  likeProduct.find((product)=>product.productId === id)
             if(productAlreadyExist){
@@ -56,10 +56,66 @@ const DisplayProducts = () => {
                 
             }
         },[likeProduct])
+
     
+    interface Action {
+        type:"add"| "remove",
+        payload:{
+            productId:number,
+            quantity:number
+        }
+    }
+
+    interface CartItem{
+        productId:number;
+        quantity:number;
+    }
+    
+    const initialState = [
+        {
+            productId:0,
+            quantity:0
+        }
+    ]
+    
+    function cartReducer(cartState:CartItem[],action:Action):CartItem[]{
+        const {type,payload} = action
+        switch(type){
+            case "add":{
+                const existingItem = cartState.find((item)=>item.productId === payload.productId)
+                if(existingItem){
+                    return cartState.map((item)=> item.productId === payload.productId?{...item,quantity:item.quantity+1}:item)
+                }else{
+                    return [...cartState,{productId:payload.productId,quantity:1}]
+                }
+                
+            }
+            case "remove":{
+                return cartState.map((item)=>item.productId ===payload.productId?{...item,quantity:Math.max(0,item.quantity-1)}:item).filter((item)=>item.quantity>0)
+            }
+            default:
+                return cartState
+        }
+    }
+
+    const [cartState,cartDispatch] = useReducer(cartReducer,initialState)
+
+    const addItemToCart = (productId:number)=>{
+        cartDispatch({type:"add",payload:{productId,quantity:1}})
+    }
+
+    const removeItemToCart = (productId:number)=>{
+        cartDispatch({type:"remove",payload:{productId,quantity:0}})
+    }
+    console.log(cartState)
     return (
         <>
             <div>
+            <div>
+                    {cartState.map((item)=><p key={item.productId}>
+      Product ID: {item.productId}, Quantity: {item.quantity}
+    </p>)}
+                </div>
                 { 
                 dataLoading ? (
             <div
@@ -78,9 +134,9 @@ const DisplayProducts = () => {
                       <div className="cursor-pointer " ><FiHeart onClick={()=>handleLikeProduct(product.id)} className={`cursor-pointer ${likeProduct.find((item)=>item.productId ===product.id)?`fill-red-600 text-red-600`:`"hover:text-red-600 hover:fill-red-600"`}`} /></div>
                       <div className="flex items-center justify-center gap-4 ">
                           <FiShoppingCart className="fill-orange-400"/>
-                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleQuantity(product.id,"add")}><FiPlus/></button>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>addItemToCart(product.id)}><FiPlus/></button>
                           <span>{cartProduct.find((item)=>item.productId === product.id)?.quantity ||0} </span>
-                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleQuantity(product.id,"remove")}><FiMinus/></button>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>removeItemToCart(product.id)}><FiMinus/></button>
                       </div>
                   </div>
                   <h2 className="text-wrap ">{product.title}</h2>
@@ -92,6 +148,7 @@ const DisplayProducts = () => {
                 
             </div>
             }
+                
             </div>
             
             
