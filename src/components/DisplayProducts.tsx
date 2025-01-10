@@ -110,7 +110,7 @@ const DisplayProducts = () => {
     console.log(cartState)
     return (
         <>
-            <div>
+            <div className="flex-col items-center justify-center max-w-4xl p-2 mx-auto">
             <div>
                     {cartState.map((item)=><p key={item.productId}>
       Product ID: {item.productId}, Quantity: {item.quantity}
@@ -124,10 +124,10 @@ const DisplayProducts = () => {
                   ? " bg-red-300 animate-pulse"
                   : "bg-transparent pointer-events-none"
               }`}
-            ></div>):<div className="grid max-w-xl grid-cols-1 gap-2 p-4 mx-auto md:grid-cols-3">
+            ></div>):<div className="grid max-w-4xl grid-cols-1 gap-2 p-4 mx-auto md:grid-cols-4">
                 {/* <h1>Products</h1> */}
                 {data.map((product)=>(
-                  <div key={product.id} className="container p-2 space-y-4 border rounded-md ">
+                  <div key={product.id} className="container w-full p-2 space-y-4 border rounded-md text-pretty">
                   <span>{product.id}</span>
                   <div className="p-2 mb-2"><img src={product.image} className="block aspect-square hover:rotate-1"/></div>
                   <div className="flex flex-col justify-center gap-2 m-2 place-items-center">
@@ -139,9 +139,13 @@ const DisplayProducts = () => {
                           <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>removeItemToCart(product.id)}><FiMinus/></button>
                       </div>
                   </div>
-                  <h2 className="text-wrap ">{product.title}</h2>
-                  <NavLink to={`/${product.id}`} className={({isActive})=>{ return isActive?`bg-sky-400`:` border text-lg font-medium bg-orange-400 capitalize`}}>Buy</NavLink>
-                  <p className="text-center">${product.price}</p>
+                  
+                  <p className="text-center ">Price: ${product.price}</p>
+                  <NavLink to={`/${product.id}`} className={({isActive}) =>
+                                        `block text-center  mt-2  rounded-md p-1 font-semibold transition-all duration-200 hover:bg-orange-600 ${isActive ?"bg-sky-500":"bg-orange-400"}`
+                                    }>Buy</NavLink>
+                <h2 className="text-wrap ">{product.title}</h2>
+                  
               </div>
                 ))}
                 
