@@ -107,15 +107,22 @@ const DisplayProducts = () => {
     const removeItemToCart = (productId:number)=>{
         cartDispatch({type:"remove",payload:{productId,quantity:0}})
     }
+    
+    const handleAddProduct = useCallback((productId:number)=>{
+        cartDispatch({type:"add",payload:{productId,quantity:1}})
+    },[])
+    const handleRemoveProduct = useCallback((productId:number)=>{
+        cartDispatch({type:"remove",payload:{productId,quantity:0}})
+    },[])
     console.log(cartState)
     return (
         <>
             <div className="flex-col items-center justify-center max-w-4xl p-2 mx-auto">
-            <div>
+            {/* <div>
                     {cartState.map((item)=><p key={item.productId}>
       Product ID: {item.productId}, Quantity: {item.quantity}
     </p>)}
-                </div>
+                </div> */}
                 { 
                 dataLoading ? (
             <div
@@ -134,9 +141,9 @@ const DisplayProducts = () => {
                       <div className="cursor-pointer " ><FiHeart onClick={()=>handleLikeProduct(product.id)} className={`cursor-pointer ${likeProduct.find((item)=>item.productId ===product.id)?`fill-red-600 text-red-600`:`"hover:text-red-600 hover:fill-red-600"`}`} /></div>
                       <div className="flex items-center justify-center gap-4 ">
                           <FiShoppingCart className="fill-orange-400"/>
-                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>addItemToCart(product.id)}><FiPlus/></button>
-                          <span>{cartProduct.find((item)=>item.productId === product.id)?.quantity ||0} </span>
-                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>removeItemToCart(product.id)}><FiMinus/></button>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleAddProduct(product.id)}><FiPlus/></button>
+                          <span>{cartState.find((item)=>item.productId ===product.id)?.quantity||0} </span>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleRemoveProduct(product.id)}><FiMinus/></button>
                       </div>
                   </div>
                   
