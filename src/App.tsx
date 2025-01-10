@@ -5,7 +5,7 @@ import Products from './components/Products'
 function App() {
   return (
     <>
-      <Products/>
+      <h1>asd</h1>
     </>
   )
 }

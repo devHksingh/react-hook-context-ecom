@@ -4,9 +4,16 @@
 import { NavLink } from "react-router-dom";
 import useFetchProducts from "../hooks/useFetchProducts";
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi";
-import { useCallback, useReducer } from "react";
+import { createContext, useCallback, useReducer } from "react";
+import { CartItem } from "../types/cartTypes";
+import { CartProvider } from "../contexts/cart";
+import CartProducts from "./CartProducts";
+
+
+
 
 const DisplayProducts = () => {
+    
     // const navigation = useNavigation();
     const {data,error,loading:dataLoading} = useFetchProducts() ;
     // const [cartProduct,setCartProduct] = useState([{productId:0,quantity:0}])
@@ -66,10 +73,10 @@ const DisplayProducts = () => {
         }
     }
 
-    interface CartItem{
-        productId:number;
-        quantity:number;
-    }
+    // interface CartItem{
+    //     productId:number;
+    //     quantity:number;
+    // }
     
     const initialState = [
         {
@@ -142,6 +149,7 @@ const DisplayProducts = () => {
     },[])
 
     
+     
     console.log(wishListState)
     return (
         <>
@@ -189,13 +197,20 @@ const DisplayProducts = () => {
             }
                 
             </div>
+
+            <CartProvider value={{cartState,handleAddProduct,handleRemoveProduct}}>
+                <CartProducts/>
+            </CartProvider>
             
             
             
         </>
     )
 }
+
 export default DisplayProducts
+
+
 
 /*
 dataLoading ? (

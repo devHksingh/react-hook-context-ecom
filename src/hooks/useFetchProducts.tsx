@@ -13,6 +13,8 @@ const useFetchProducts = () => {
         try {
             const response = await getAllProducts()
             if(response){
+                console.log(response);
+                
                 setData(response)
             }
         } catch (error) {

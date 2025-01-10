@@ -7,18 +7,19 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import CartProducts from './components/CartProducts.tsx'
 import WishList from './components/WishList.tsx'
 
-import getAllProducts from './utils/fetchProducts.ts'
 import ErrorPage from './ErrorPage.tsx'
+import Display from './components/Display.tsx'
+import { CartProvider } from './components/CartContext.tsx'
 
-import DisplayProducts from './components/DisplayProducts.tsx'
-import Products from './components/Products.tsx'
+// import DisplayProducts from './components/DisplayProducts.tsx'
+
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' errorElement={<ErrorPage/>}>
-      <Route  path=''  element={<DisplayProducts/>}  >
-        <Route  path='/:productId' element={<DisplayProducts/>}/>
+      <Route  path=''  element={<Display/>}  >
+        <Route  path='/:productId' element={<Display/>}/>
       </Route>
       
       <Route path='/cart' element={<CartProducts/>}/>
@@ -31,7 +32,8 @@ const router = createBrowserRouter(
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <CartProvider>
     <RouterProvider router={router}/>
-    
+    </CartProvider>
   </StrictMode>,
 )
