@@ -1,7 +1,7 @@
 import { useCart } from "./CartContext";
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi";
 import useFetchProducts from "../hooks/useFetchProducts";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Display = () => {
   const {cartState,handleAddProduct,handleRemoveProduct} = useCart()
@@ -13,6 +13,7 @@ const Display = () => {
         error?(<div>Error occured while fetching data</div>):(
             <div className="flex-col items-center justify-center max-w-4xl p-2 mx-auto">
         <h1 className="text-xl font-bold text-center">Products</h1>
+        <Link className="p-1 px-2 text-center rounded-md bg-sky-400 hover:bg-sky-600" to={'/cart'}>Cart {cartState.length} </Link>
         {dataLoading?(
             <div className="flex items-center justify-center min-h-screen bg-stone-400 animate-pulse"><h2 className="mt-4 text-xl font-bold text-center text-red-500 animate-pulse ">Loading...</h2></div>
         ):(
