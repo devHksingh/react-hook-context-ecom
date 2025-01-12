@@ -42,14 +42,16 @@ const ProductPage = () => {
                         
                     </div>
 
-                  <div className="flex items-center justify-center gap-4 ">
+                  <div className="inline-block text-xl align-center md:ml-2">
+                       <div className="flex items-center justify-center gap-4">
                         <FiShoppingCart className="fill-orange-400"/>
-                        <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleAddProduct(data.id as number)}><FiPlus/></button>
-                        <span>{cartState.find((item)=>item.productId ===data.id)?.quantity||0} </span>
-                        <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleRemoveProduct(data.id)}><FiMinus/></button>
-                    </div>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleAddProduct(data.id as number)}><FiPlus/></button>
+                          <span>{cartState.find((item)=>item.productId ===data.id)?.quantity||0} </span>
+                          <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleRemoveProduct(data.id)}><FiMinus/></button>
+                       </div>
+                  </div>
                     
-                    <div className="block align-bottom">
+                    <div className="mt-4 text-center ">
                         <button className="px-10 py-2 font-semibold text-yellow-900 bg-yellow-300 rounded-full opacity-80 hover:opacity-100 hover:text-gray-900"><i className="mr-2 -ml-2 mdi mdi-cart"></i> BUY NOW</button>
                     </div>
                 </div>
