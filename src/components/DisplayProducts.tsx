@@ -4,10 +4,10 @@
 import { NavLink } from "react-router-dom";
 import useFetchProducts from "../hooks/useFetchProducts";
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi";
-import { createContext, useCallback, useReducer } from "react";
+import {  useCallback, useReducer } from "react";
 import { CartItem } from "../types/cartTypes";
-import { CartProvider } from "../contexts/cart";
-import CartProducts from "./CartProducts";
+// import { CartProvider } from "../contexts/cart";
+// import CartProducts from "./CartProducts";
 
 
 
@@ -198,9 +198,15 @@ const DisplayProducts = () => {
                 
             </div>
 
-            <CartProvider value={{cartState,handleAddProduct,handleRemoveProduct}}>
+            {/* <CartProvider value={{cartState,handleAddProduct,handleRemoveProduct}}>
                 <CartProducts/>
-            </CartProvider>
+            </CartProvider> */}
+
+        <>
+        {
+            error && (<div><p className="mt-4 text-center text-red-600 animate-pulse ">Error occured while fetching data</p></div>)
+        }
+        </>
             
             
             
