@@ -35,14 +35,14 @@ const ProductPage = () => {
                     
                     <p className="text-sm capitalize">{data?.description} <a href="#" className="inline-block text-xs leading-none text-gray-900 border-b border-gray-900 opacity-50 hover:opacity-100">READ MORE </a></p>
                 </div>
-                <div>
+                <div className="flex items-center justify-around">
                     <div className="inline-block mr-5 align-bottom">
                         <span className="text-2xl leading-none align-baseline">$</span>
                         <span className="text-4xl font-bold leading-none align-baseline">{data?.price}</span>
                         
                     </div>
 
-                  <div className="inline-block text-xl align-center md:ml-2">
+                  <div className="inline-block text-xl align-center md:ml-20">
                        <div className="flex items-center justify-center gap-4">
                         <FiShoppingCart className="fill-orange-400"/>
                           <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleAddProduct(data.id as number)}><FiPlus/></button>
@@ -50,9 +50,12 @@ const ProductPage = () => {
                           <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="removeToCart"  onClick={()=>handleRemoveProduct(data.id)}><FiMinus/></button>
                        </div>
                   </div>
+                  
+                  </div>
+                  <div className="mt-4">
                     
-                    <div className="mt-4 text-center ">
-                        <button className="px-10 py-2 font-semibold text-yellow-900 bg-yellow-300 rounded-full opacity-80 hover:opacity-100 hover:text-gray-900"><i className="mr-2 -ml-2 mdi mdi-cart"></i> BUY NOW</button>
+                    <div className="w-full ">
+                        <button className="w-full px-10 py-2 font-semibold text-yellow-900 bg-yellow-300 rounded-full opacity-80 hover:opacity-100 hover:text-gray-900"><i className="mr-2 -ml-2 mdi mdi-cart"></i> BUY NOW</button>
                     </div>
                 </div>
             </div>
