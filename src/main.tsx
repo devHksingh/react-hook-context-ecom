@@ -10,6 +10,7 @@ import WishList from './components/WishList.tsx'
 import ErrorPage from './ErrorPage.tsx'
 import Display from './components/Display.tsx'
 import { CartProvider } from './components/CartContext.tsx'
+import ProductPage from './components/ProductPage.tsx'
 
 // import DisplayProducts from './components/DisplayProducts.tsx'
 
@@ -19,8 +20,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' errorElement={<ErrorPage/>}>
       <Route  path=''  element={<Display/>}  >
-        <Route  path='/:productId' element={<Display/>}/>
       </Route>
+        <Route  path='/:productId' element={<ProductPage/>}/>
       
       <Route path='/cart' element={<CartProducts/>}/>
       <Route path='/wishlist' element={<WishList/>}/>
