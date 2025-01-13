@@ -2,10 +2,12 @@ import { useCart } from "./CartContext";
 import { FiHeart, FiMinus, FiPlus, FiShoppingCart } from "react-icons/fi";
 import useFetchProducts from "../hooks/useFetchProducts";
 import { Link, NavLink } from "react-router-dom";
+import { useWishList } from "./WishListContext";
 
 const Display = () => {
   const {cartState,handleAddProduct,handleRemoveProduct} = useCart()
   const {data,error,loading:dataLoading} = useFetchProducts()
+  const {wishListState,handleWishListProduct} = useWishList()
 
   return (
     <>
@@ -23,7 +25,7 @@ const Display = () => {
                         <span>{product.id}</span>
                   <div className="p-2 mb-2"><img src={product.image} className="block aspect-square hover:rotate-1"/></div>
                   <div className="flex flex-col justify-center gap-2 m-2 place-items-center">
-                      {/* <div className="cursor-pointer " ><FiHeart onClick={()=>handlewishlistProduct(product.id)} className={`cursor-pointer ${wishListState.find((item)=>item.productId ===product.id)?`fill-red-600 text-red-600`:`"hover:text-red-600 hover:fill-red-600"`}`} /></div> */}
+                      <div className="cursor-pointer " ><FiHeart onClick={()=>handleWishListProduct(product.id)} className={`cursor-pointer ${wishListState.find((item)=>item.productId ===product.id)?`fill-red-600 text-red-600`:`"hover:text-red-600 hover:fill-red-600"`}`} /></div>
                       <div className="flex items-center justify-center gap-4 ">
                           <FiShoppingCart className="fill-orange-400"/>
                           <button className="border px-1 py-0.5 rounded hover:bg-stone-200" id="addToCart"  onClick={()=>handleAddProduct(product.id)}><FiPlus/></button>

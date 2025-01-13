@@ -11,6 +11,7 @@ import ErrorPage from './ErrorPage.tsx'
 import Display from './components/Display.tsx'
 import { CartProvider } from './components/CartContext.tsx'
 import ProductPage from './components/ProductPage.tsx'
+import { WishListProvider } from './components/WishListContext.tsx'
 
 // import DisplayProducts from './components/DisplayProducts.tsx'
 
@@ -34,7 +35,9 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <CartProvider>
+    <WishListProvider>
     <RouterProvider router={router}/>
+    </WishListProvider>
     </CartProvider>
   </StrictMode>,
 )
