@@ -8,14 +8,25 @@ const Display = () => {
   const {cartState,handleAddProduct,handleRemoveProduct} = useCart()
   const {data,error,loading:dataLoading} = useFetchProducts()
   const {wishListState,handleWishListProduct} = useWishList()
-
+  console.log(wishListState);
   return (
     <>
     {
         error?(<div>Error occured while fetching data</div>):(
             <div className="flex-col items-center justify-center max-w-4xl p-2 mx-auto">
         <h1 className="text-xl font-bold text-center">Products</h1>
-        <Link className="p-1 px-2 text-center rounded-md bg-sky-400 hover:bg-sky-600" to={'/cart'}>Cart {cartState.length} </Link>
+        <div className="flex items-center gap-4">
+            
+        <Link className="flex items-center gap-2 p-1 px-2 text-center rounded-md bg-stone-100 hover:bg-stone-400" to={'/cart'}>
+            <span><FiShoppingCart className="fill-orange-400 "/></span>
+          {cartState.length} 
+         </Link>
+        <Link className="flex items-center gap-2 p-1 px-2 text-center rounded-md bg-stone-100 hover:bg-stone-400" to={'/wishlist'}>
+        <span><FiHeart className={`${wishListState.length>0?`fill-pink-600 text-pink-600`:``}`}/></span>
+         {wishListState.length} 
+        </Link>
+            
+        </div>
         {dataLoading?(
             <div className="flex items-center justify-center min-h-screen bg-stone-400 animate-pulse"><h2 className="mt-4 text-xl font-bold text-center text-red-500 animate-pulse ">Loading...</h2></div>
         ):(
